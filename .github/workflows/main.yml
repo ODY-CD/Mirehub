@@ -40,13 +40,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Application_Artifact
-        path: /home/runner/work/Mirehub/Mirehub/release/
+        path: /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub/release/
                 
     - name: Upload Build Artifact API
       uses: actions/upload-artifact@v2
       with:
         name: Application_Artifact
-        path: /home/runner/work/Mirehub.Api/Mirehub.Api/release/
+        path: /Users/Administrator/actions-runner-2/_work/Mirehub.Api/Mirehub.Api/release/
 
   deploy:
     runs-on: self-hosted

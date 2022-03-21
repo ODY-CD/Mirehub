@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
-    runs-on: self-hosted
-
+    runs-on: self-hosted    
     steps:
     - uses: actions/checkout@v2
       with:
@@ -40,13 +38,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Application_Artifact
-        path: /home/runner/work/Mirehub/Mirehub/release/
+        path: Mirehub/Mirehub/bin/release/
                 
     - name: Upload Build Artifact API
       uses: actions/upload-artifact@v2
       with:
         name: Application_Artifact
-        path: /home/runner/work/Mirehub.Api/Mirehub.Api/release/
+        path: Mirehub.Api/Mirehub.Api/bin/release/
 
   deploy:
     runs-on: self-hosted

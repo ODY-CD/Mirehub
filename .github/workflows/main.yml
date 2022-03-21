@@ -31,10 +31,10 @@ jobs:
       run: dotnet test -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
       
     - name: Publish WebSite
-      run: dotnet publish Mirehub/Mirehub.csproj -c Release -o release —nologo
+      run: dotnet publish Mirehub/Mirehub.csproj -c Release -o release --nologo
 
     - name: Publish API
-      run: dotnet publish Mirehub.Api/Mirehub.Api.csproj -c Release -o release -nologo
+      run: dotnet publish Mirehub.Api/Mirehub.Api.csproj -c Release -o release --nologo
 
   deploy:
     runs-on: self-hosted

@@ -35,6 +35,18 @@ jobs:
 
     - name: Publish API
       run: dotnet publish Mirehub.Api/Mirehub.Api.csproj -c Release -o release --nologo
+      
+    - name: Upload Build Artifact Website
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application_Artifact
+        path: /home/runner/work/Mirehub/Mirehub/release/
+                
+    - name: Upload Build Artifact API
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application_Artifact
+        path: /home/runner/work/Mirehub.Api/Mirehub.Api/release/
 
   deploy:
     runs-on: self-hosted

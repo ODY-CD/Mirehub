@@ -62,6 +62,5 @@ jobs:
       - name: Install IIS from powershell
         uses: Amadevus/pwsh-script@v2.0.1
         with:
-          script: |
-            ls
+          script: ls \
             dir

@@ -59,9 +59,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
             name: Application_Artifact_WebSite
+            
       - name: Install IIS from powershell
         run: |
           iisreset /stop
-          Copy-Item ./* C:/inetpub/wwwroot/Mirehub -Recurse -Force
+          Copy-Item /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub C:/inetpub/wwwroot/Mirehub -Recurse -Force
           iisreset /start
           

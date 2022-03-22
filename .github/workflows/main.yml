@@ -60,9 +60,8 @@ jobs:
         with:
             name: Application_Artifact_WebSite
       - name: Install IIS from powershell
-        uses: Amadevus/pwsh-script@v2.0.1
-        with:
-          script: >-
-            ls
-            dir
+        run: |
+          iisreset /stop
+          Copy-Item ./dotnetcorewebapp/* C:/inetpub/wwwroot/dotnetcore-webapp -Recurse -Force
+          iisreset /start
           

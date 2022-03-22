@@ -62,6 +62,6 @@ jobs:
       - name: Install IIS from powershell
         run: |
           iisreset /stop
-          Copy-Item ./dotnetcorewebapp/* C:/inetpub/wwwroot/dotnetcore-webapp -Recurse -Force
+          Copy-Item ./* C:/inetpub/wwwroot/Mirehub -Recurse -Force
           iisreset /start
           

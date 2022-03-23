@@ -26,27 +26,16 @@ jobs:
     
     - name: Build
       run: dotnet build -c Release --no-restore
-    
-    - name: Test
-      run: dotnet test -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
-      
+          
     - name: Publish WebSite
       run: dotnet publish Mirehub/Mirehub.csproj -c Release -o release --nologo
-
-    - name: Publish API
-      run: dotnet publish Mirehub.Api/Mirehub.Api.csproj -c Release -o release --nologo
       
     - name: Upload Build Artifact Website
       uses: actions/upload-artifact@v2
       with:
         name: Application_Artifact_WebSite
         path: /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub/release/
-                
-    - name: Upload Build Artifact API
-      uses: actions/upload-artifact@v2
-      with:
-        name: Application_Artifact_API
-        path: /Users/Administrator/actions-runner-2/_work/Mirehub.Api/Mirehub.Api/release/
+              
 
   deploy:
     runs-on: self-hosted
@@ -63,7 +52,7 @@ jobs:
       - name: Install IIS from powershell
         run: |
           iisreset /stop
-          Copy-Item /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub C:/inetpub/wwwroot/Mirehub -Recurse -Force
+          Copy-Item Application_Artifact_WebSite C:/inetpub/wwwroot/Mirehub -Recurse -Force
           New-IISSite -Name "Mirehub" -BindingInformation "*:8080:" -PhysicalPath "C:/inetpub/wwwroot/Mirehub"
           iisreset /start
           

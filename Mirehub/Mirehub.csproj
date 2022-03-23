@@ -7,6 +7,8 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
     <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
+    <IsPublishable>True</IsPublishable>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>

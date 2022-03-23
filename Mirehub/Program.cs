@@ -11,8 +11,16 @@ builder.Host.ConfigureContainer<ContainerBuilder>(options =>
     // Declare your services with proper lifetime
 });
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(8080);
+    options.ListenAnyIP(8081, configure => configure.UseHttps());
+}).UseIISIntegration();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
 
 var app = builder.Build();
 
@@ -36,3 +44,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
+// dotnet publish --configuration Release

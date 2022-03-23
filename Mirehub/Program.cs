@@ -15,7 +15,7 @@ builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenAnyIP(8080);
     options.ListenAnyIP(8081, configure => configure.UseHttps());
-});
+}).UseIISIntegration();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

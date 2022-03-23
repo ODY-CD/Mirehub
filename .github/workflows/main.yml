@@ -55,6 +55,6 @@ jobs:
           iisreset /stop
           Remove-IISSite -Name "Mirehub" -Confirm:$false
           New-IISSite -Name "Mirehub" -BindingInformation "*:8080:" -PhysicalPath "C:/inetpub/wwwroot/Mirehub"
-          New-IISSiteBinding -Name "Mirehub" "*:8081:mirehub.com" -Protocol https -SslFlag "Sni, CentralCertStore"
+          New-IISSiteBinding -Name "Mirehub" "*:8081:mirehub.com" -Protocol https
           iisreset /start
           

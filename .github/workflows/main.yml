@@ -1,0 +1,58 @@
+name: Build and test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build -c Release --no-restore
+          
+    - name: Publish WebSite
+      run: dotnet publish Mirehub/Mirehub.csproj -c Release -o release --nologo
+      
+    - name: Upload Build Artifact Website
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application_Artifact_WebSite
+        path: /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub/release/
+              
+
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    environment:
+      name: 'PRD'
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+            name: Application_Artifact_WebSite
+            path: C:/inetpub/wwwroot/Mirehub
+            
+      - name: Install IIS from powershell
+        run: |
+          iisreset /stop
+          New-IISSite -Name "Mirehub" -BindingInformation "*:8080:" -PhysicalPath "C:/inetpub/wwwroot/Mirehub"
+          iisreset /start
+          

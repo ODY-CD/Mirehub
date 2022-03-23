@@ -54,6 +54,8 @@ jobs:
         run: |
           iisreset /stop
           Remove-IISSite -Name "Mirehub" -Confirm:$false
-          New-IISSite -Name "Mirehub" -BindingInformation "*:8080:8081:mirehub.fr" -PhysicalPath "C:/inetpub/wwwroot/Mirehub"
+          New-IISSite -Name "Mirehub" -BindingInformation "*:8080" -PhysicalPath "C:/inetpub/wwwroot/Mirehub"
+          New-WebBinding -Name "Mirehub" -IPAddress "*" -Port 8080 -HostHeader "mirehub.fr"
+          New-WebBinding -Name "Mirehub" -IPAddress "*" -Port 8081 -HostHeader "mirehub.fr"
           iisreset /start
           

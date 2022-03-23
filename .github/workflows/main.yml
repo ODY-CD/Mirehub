@@ -53,6 +53,7 @@ jobs:
       - name: Install IIS from powershell
         run: |
           iisreset /stop
+          Remove-IISSite -Name "Mirehub"
           New-IISSite -Name "Mirehub" -BindingInformation "*:8080:" -PhysicalPath "C:/inetpub/wwwroot/Mirehub"
           iisreset /start
           

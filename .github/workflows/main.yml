@@ -42,16 +42,19 @@ jobs:
       name: 'PRD'
 
     steps:
+    
+      - name: Stop And Delete Kestrel Service
+        run: |
+          Stop-Service -Name Mirehub -ErrorAction SilentlyContinue
+          sc.exe delete "Mirehub"
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
             name: Application_Artifact_WebSite
             path: C:/inetpub/wwwroot/Mirehub
             
-      - name: Install IIS from powershell
+      - name: Install And Run Kestrel Servuce
         run: |
-          Stop-Service -Name Mirehub -ErrorAction SilentlyContinue
-          sc.exe delete "Mirehub"
           C:\tools\nssm.exe install "Mirehub" "C:\inetpub\wwwroot\Mirehub\Mirehub.exe"
           Start-Service -Name Mirehub
           

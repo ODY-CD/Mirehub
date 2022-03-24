@@ -52,10 +52,8 @@ jobs:
             
       - name: Install IIS from powershell
         run: |
-          iisreset /stop
-          Remove-IISSite -Name "Mirehub" -Confirm:$false
-          New-IISSite -Name "Mirehub" -BindingInformation "*:8080:" -PhysicalPath "C:/inetpub/wwwroot/Mirehub"
-          New-IISSiteBinding -Name "Mirehub" "*:8081:mirehub.com" -Protocol https
-          Set-ItemProperty 'IIS:\Sites\Mirehub' applicationPool MirehubPool
-          iisreset /start
+          sc.exe delete "Mirehub"
+          New-Service -Name "Mirehub" -BinaryPathName C:\inetpub\wwwroot\Mirehub\Mirehub.exe
+          Start-Service -Name Mirehub
+          
           

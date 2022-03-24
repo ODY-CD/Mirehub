@@ -41,7 +41,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Application_Artifact_API
-        path: /Users/Administrator/actions-runner-2/_work/Mirehub.Api/Mirehub.Api/releaseApi/
+        path: /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub/releaseApi/
               
 
   deploy:

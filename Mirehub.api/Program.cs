@@ -12,6 +12,13 @@ builder.Host.ConfigureContainer<ContainerBuilder>(options =>
     // Declare your services with proper lifetime
 });
 
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(8084);
+}).UseIISIntegration();
+
+
 builder.Services.AddScoped<IStorageService, StorageService>();
 
 builder.Services.AddControllers();

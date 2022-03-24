@@ -28,11 +28,20 @@ jobs:
     - name: Publish WebSite
       run: dotnet publish Mirehub/Mirehub.csproj -c Release -o release --nologo
       
+    - name: Publish API
+      run: dotnet publish Mirehub.Api/Mirehub.Api.csproj -c Release -o releaseApi --nologo
+      
     - name: Upload Build Artifact Website
       uses: actions/upload-artifact@v2
       with:
         name: Application_Artifact_WebSite
         path: /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub/release/
+              
+    - name: Upload Build Artifact API
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application_Artifact_API
+        path: /Users/Administrator/actions-runner-2/_work/Mirehub.Api/Mirehub.Api/releaseApi/
               
 
   deploy:
@@ -43,19 +52,39 @@ jobs:
 
     steps:
     
-      - name: Stop And Delete Kestrel Service
+      - name: WebService - Stop And Delete Kestrel Service
         run: |
           Stop-Service -Name Mirehub -ErrorAction SilentlyContinue
           sc.exe delete "Mirehub"
-      - name: Download artifact from build job
+          
+      - name: WebService - Download artifact from build job
         uses: actions/download-artifact@v3
         with:
             name: Application_Artifact_WebSite
             path: C:/inetpub/wwwroot/Mirehub
             
-      - name: Install And Run Kestrel Servuce
+      - name: WebService - Install And Run Kestrel Servuce
         run: |
           C:\tools\nssm.exe install "Mirehub" "C:\inetpub\wwwroot\Mirehub\Mirehub.exe"
           Start-Service -Name Mirehub
+          
+          
+      - name: API - Stop And Delete Kestrel Service
+        run: |
+          Stop-Service -Name ApiMirehub -ErrorAction SilentlyContinue
+          sc.exe delete "ApiMirehub"
+          
+      - name: API - Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+            name: Application_Artifact_API
+            path: C:/inetpub/wwwroot/Mirehub.Api/
+            
+      - name: API - Install And Run Kestrel Servuce
+        run: |
+          C:\tools\nssm.exe install "ApiMirehub" "C:\inetpub\wwwroot\Mirehub.Api\Mirehub.api.exe"
+          Start-Service -Name ApiMirehub
+          
+          
           
           

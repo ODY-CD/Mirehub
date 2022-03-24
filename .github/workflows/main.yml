@@ -55,7 +55,7 @@ jobs:
       - name: WebService - Stop And Delete Kestrel Service
         run: |
           Stop-Service -Name Mirehub -ErrorAction SilentlyContinue
-          sc.exe delete "Mirehub"
+          sc.exe delete "Mirehub" -ErrorAction SilentlyContinue
           
       - name: WebService - Download artifact from build job
         uses: actions/download-artifact@v3
@@ -72,7 +72,7 @@ jobs:
       - name: API - Stop And Delete Kestrel Service
         run: |
           Stop-Service -Name ApiMirehub -ErrorAction SilentlyContinue
-          sc.exe delete "ApiMirehub"
+          sc.exe delete "ApiMirehub" -ErrorAction SilentlyContinue
           
       - name: API - Download artifact from build job
         uses: actions/download-artifact@v3

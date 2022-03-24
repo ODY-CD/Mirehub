@@ -12,6 +12,13 @@ builder.Host.ConfigureContainer<ContainerBuilder>(options =>
     // Declare your services with proper lifetime
 });
 
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(8084);
+}).UseIISIntegration();
+
+
 builder.Services.AddScoped<IStorageService, StorageService>();
 
 builder.Services.AddControllers();
@@ -22,11 +29,14 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+// todo: remove if it works
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

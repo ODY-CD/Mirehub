@@ -1,0 +1,92 @@
+name: Build and test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: self-hosted    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build -c Release --no-restore
+          
+    - name: Publish WebSite
+      run: dotnet publish Mirehub/Mirehub.csproj -c Release -o release --nologo
+      
+    - name: Publish API
+      run: dotnet publish Mirehub.Api/Mirehub.Api.csproj -c Release -o releaseApi --nologo
+      
+    - name: Upload Build Artifact Website
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application_Artifact_WebSite
+        path: /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub/release/
+              
+    - name: Upload Build Artifact API
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application_Artifact_API
+        path: /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub/releaseApi/
+              
+
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    environment:
+      name: 'PRD'
+
+    steps:
+    
+      - name: WebService - Stop And Delete Kestrel Service
+        continue-on-error: true
+        run: |
+          Stop-Service -Name Mirehub -ErrorAction SilentlyContinue
+          sc.exe delete "Mirehub" 
+          
+      - name: WebService - Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+            name: Application_Artifact_WebSite
+            path: C:/inetpub/wwwroot/Mirehub
+            
+      - name: WebService - Install And Run Kestrel Servuce
+        run: |
+          C:\tools\nssm.exe install "Mirehub" "C:\inetpub\wwwroot\Mirehub\Mirehub.exe"
+          Start-Service -Name Mirehub
+          
+          
+      - name: API - Stop And Delete Kestrel Service
+        continue-on-error: true
+        run: |
+          Stop-Service -Name ApiMirehub -ErrorAction SilentlyContinue
+          sc.exe delete "ApiMirehub"
+          
+      - name: API - Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+            name: Application_Artifact_API
+            path: C:/inetpub/wwwroot/Mirehub.Api/
+            
+      - name: API - Install And Run Kestrel Servuce
+        run: |
+          C:\tools\nssm.exe install "ApiMirehub" "C:\inetpub\wwwroot\Mirehub.Api\Mirehub.api.exe"
+          Start-Service -Name ApiMirehub
+          
+          
+          
+          

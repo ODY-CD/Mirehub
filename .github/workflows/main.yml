@@ -52,8 +52,9 @@ jobs:
             
       - name: Install IIS from powershell
         run: |
+          Stop-Service -Name Mirehub -ErrorAction SilentlyContinue
           sc.exe delete "Mirehub"
-          New-Service -Name "Mirehub" -BinaryPathName C:\inetpub\wwwroot\Mirehub\Mirehub.exe
+          C:\tools\nssm.exe install "Mirehub" "C:\inetpub\wwwroot\Mirehub\Mirehub.exe"
           Start-Service -Name Mirehub
           
           

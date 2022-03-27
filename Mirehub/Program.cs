@@ -18,8 +18,7 @@ builder.WebHost.ConfigureKestrel(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-
+builder.Services.AddMvcCore(x => x.SslPort = 8081);
 
 var app = builder.Build();
 

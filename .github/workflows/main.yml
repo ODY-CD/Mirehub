@@ -43,7 +43,7 @@ jobs:
         name: Application_Artifact_API
         path: /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub/releaseApi/
 
-    - name: Upload Build Artifact Configuration
+    - name: Upload Artifact Configuration
       uses: actions/upload-artifact@v2
       with:
         name: Application_Artifact_Configuration
@@ -103,7 +103,7 @@ jobs:
       - name: Configuration - Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-            name: Application_Artifact_API
+            name: Application_Artifact_Configuration
             path: C:/Apache24/conf/VhostWebsites/
             
       - name: Start Apache

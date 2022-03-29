@@ -48,8 +48,8 @@ jobs:
       with:
         name: Application_Artifact_Configuration
         path: |
-            /Users/Administrator/actions-runner-2/_work/Mirehub/apache_mirehub.conf
-            /Users/Administrator/actions-runner-2/_work/Mirehub/apache_apimirehub.conf
+            /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub/apache_mirehub.conf
+            /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub/apache_apimirehub.conf
               
 
   deploy:
@@ -104,10 +104,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
             name: Application_Artifact_API
-            path: C:/Apache24/VhostWebsites/
+            path: C:/Apache24/conf/VhostWebsites/
             
       - name: Start Apache
-        run: Start-Service -Name Apache24
+        run: Start-Service -Name Apache2.4
           
           
           

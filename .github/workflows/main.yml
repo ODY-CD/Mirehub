@@ -42,6 +42,14 @@ jobs:
       with:
         name: Application_Artifact_API
         path: /Users/Administrator/actions-runner-2/_work/Mirehub/Mirehub/releaseApi/
+
+    - name: Upload Build Artifact Configuration
+      uses: actions/upload-artifact@v2
+      with:
+        name: Application_Artifact_Configuration
+        path: |
+            /Users/Administrator/actions-runner-2/_work/Mirehub/apache_mirehub.conf
+            /Users/Administrator/actions-runner-2/_work/Mirehub/apache_apimirehub.conf
               
 
   deploy:
@@ -87,6 +95,19 @@ jobs:
           C:\tools\nssm.exe install "ApiMirehub" "C:\inetpub\wwwroot\Mirehub.Api\Mirehub.api.exe"
           Start-Service -Name ApiMirehub
           
+
+      - name: Stop Apache
+        continue-on-error: true
+        run: Stop-Service -Name Apache2.4 -ErrorAction SilentlyContinue
+          
+      - name: Configuration - Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+            name: Application_Artifact_API
+            path: C:/Apache24/VhostWebsites/
+            
+      - name: Start Apache
+        run: Start-Service -Name Apache24
           
           
           
